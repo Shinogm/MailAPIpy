@@ -1,50 +1,25 @@
 from pydantic import BaseModel
 from fastapi import Form
+from datetime import date
+from typing import Annotated
 
 class Contact(BaseModel):
     name: str
-    last_name: str
     phone: str
     email: str
-    birthday: str | None = None
-
-    @classmethod
-    def as_form(
-        cls, name: str = Form(...), 
-        last_name: str = Form(...), 
-        phone: str = Form(...), 
-        email: str = Form(...), 
-        birthday: str | None = Form(None)
-    ):
-        return cls(
-            name=name,
-            last_name=last_name,
-            phone=phone,
-            email=email,
-            birthday=birthday
-        )
+    birthday_data: date
     
-class EditConatact(BaseModel):
-    name: str | None = None
-    last_name: str | None = None
-    phone: str | None = None
-    email: str  | None = None
-    birthday: str | None = None
-
     @classmethod
     def as_form(
-        cls, name: str | None = Form(None), 
-        last_name: str | None = Form(None), 
-        phone: str | None = Form(None), 
-        email: str | None = Form(None), 
-        birthday: str | None = Form(None)
-    ):
+            cls,
+            name: Annotated[str, Form(...)],
+            phone: Annotated[str, Form(...)],
+            email: Annotated[str, Form(...)],
+            birthday_data: Annotated[date, Form(...)],
+        ):
         return cls(
             name=name,
-            last_name=last_name,
             phone=phone,
             email=email,
-            birthday=birthday
+            birthday_data=birthday_data
         )
-
-

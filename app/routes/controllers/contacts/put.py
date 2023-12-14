@@ -27,6 +27,7 @@ async def update_contact(contact_id: int, contact: Contact = Depends(Contact.as_
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail=str(e))
+
     return {
         'message': 'Contact updated successfully',
         'contact_id': contact_id
