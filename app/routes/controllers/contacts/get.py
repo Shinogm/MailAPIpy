@@ -1,4 +1,4 @@
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 from app.models.contacts import Contact
 from app.services.connection import mail_db
 
@@ -9,7 +9,7 @@ async def get_contacts():
         )
     except Exception as e:
         print(e)
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=500, detail='Ocurrio un error al obtener los contactos')
     return {
         'message': 'Contacts retrieved successfully',
         'contacts': [Contact(**contact) for contact in contacts]
@@ -23,7 +23,8 @@ async def get_contact(id: int):
         )
     except Exception as e:
         print(e)
-        raise HTTPException(status_code=500, detail=str(e))
+
+        raise HTTPException(status_code=500, detail='Ocurrio un error al obtener el contacto')
     if not contact:
         raise HTTPException(status_code=404, detail='Contact not found')
     return {

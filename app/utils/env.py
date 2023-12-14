@@ -13,5 +13,4 @@ class Env():
 
         if value is None:
             raise Exception(f'Environment variable {key} is not set')
-        
         return value
