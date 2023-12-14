@@ -10,4 +10,5 @@ app = App(
     static_dirs=[
         StaticDir(name='public', path='public')
     ]
+    
 ).get_app()
