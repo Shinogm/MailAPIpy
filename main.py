@@ -4,8 +4,8 @@ from app.models.static_dir import StaticDir
 
 app = App(
     routers=[
-        #status.router,
-        contact.router
+        contact.router,
+        
     ],
     static_dirs=[
         StaticDir(name='public', path='public')
