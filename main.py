@@ -1,8 +1,8 @@
 from app.services.fastapi import App
 from app.routes.routers import contact
 from app.models.static_dir import StaticDir
-
-app = App(
+def main():
+    app = App(
     routers=[
         contact.router,
         
@@ -11,4 +11,10 @@ app = App(
         StaticDir(name='public', path='public')
     ]
     
-).get_app()
+    ).get_app()
+    return app
+
+if __name__ == '__main__':
+    app = main()
+    import uvicorn
+    uvicorn.run(app, host='0.0.0.0', port=3001)

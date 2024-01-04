@@ -11,8 +11,8 @@ async def delete_contact(contact_id: int):
             raise HTTPException(status_code=404, detail='Contact not found')
         
         mail_db.execute(
-            sql='DELETE * FROM contacts WHERE id = %s',
-            params=(contact_db,)
+            sql='DELETE FROM contacts WHERE id = %s',
+            params=(contact_id,)
         )
 
     except Exception as e:
@@ -21,5 +21,5 @@ async def delete_contact(contact_id: int):
     
     return {
         'message': 'Contact deleted successfully',
-        'contact_id': contact_id
+        'contact_id': contact_db
         }

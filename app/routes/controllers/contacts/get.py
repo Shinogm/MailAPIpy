@@ -12,7 +12,7 @@ async def get_contacts():
         raise HTTPException(status_code=500, detail='Ocurrio un error al obtener los contactos')
     return {
         'message': 'Contacts retrieved successfully',
-        'contacts': [Contact(**contact) for contact in contacts]
+        'contacts': contacts
     }
 
 async def get_contact(id: int):
@@ -29,5 +29,5 @@ async def get_contact(id: int):
         raise HTTPException(status_code=404, detail='Contact not found')
     return {
         'message': 'Contact retrieved successfully',
-        'contact': Contact(**contact)
+        'contact': contact
     }

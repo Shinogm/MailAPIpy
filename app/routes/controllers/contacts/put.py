@@ -1,8 +1,8 @@
 from fastapi import HTTPException, Depends
-from app.models.contacts import Contact
+from app.models.contacts import ContactUpdate
 from app.services.connection import mail_db
 
-async def update_contact(contact_id: int, contact: Contact = Depends(Contact.as_form)):
+async def update_contact(contact_id: int, contact: ContactUpdate = Depends(ContactUpdate.as_form)):
 
     try:
         contact_db = mail_db.fetch_one(
@@ -12,14 +12,13 @@ async def update_contact(contact_id: int, contact: Contact = Depends(Contact.as_
         if not contact_db:
             raise HTTPException(status_code=404, detail='Contact not found')
         
-        mail_db.update(
+        contact_udp = mail_db.update(
             table='contacts',
             data={
                 'name': contact.name if contact.name is not None else contact_db['name'],
-                'last_name': contact.last_name if [contact.last_name] is not None else contact_db['last_name'],
                 'phone': contact.phone if contact.phone is not None else contact_db['phone'],
                 'email': contact.email if contact.email is not None else contact_db['email'],
-                'birthday': contact.birthday if contact.birthday is not None else contact_db['birthday']
+                'birthday': contact.birthday_data if contact.birthday_data is not None else contact_db['birthday']
             },
             where=f'id = {contact_id}'
         )
@@ -30,5 +29,5 @@ async def update_contact(contact_id: int, contact: Contact = Depends(Contact.as_
 
     return {
         'message': 'Contact updated successfully',
-        'contact_id': contact_id
+        'contact_id': contact_udp
         }

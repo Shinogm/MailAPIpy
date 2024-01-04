@@ -23,3 +23,24 @@ class Contact(BaseModel):
             email=email,
             birthday_data=birthday_data
         )
+
+class ContactUpdate(BaseModel):
+    name: str | None = None
+    phone: str | None = None
+    email: str | None = None
+    birthday_data: date | None = None
+
+    @classmethod
+    def as_form(
+            cls,
+            name: Annotated[str | None, Form(...)] = None,
+            phone: Annotated[str | None, Form(...)] = None,
+            email: Annotated[str | None, Form(...)] = None,
+            birthday_data: Annotated[date | None, Form(...)] = None,
+        ):
+        return cls(
+            name=name,
+            phone=phone,
+            email=email,
+            birthday_data=birthday_data
+        )
