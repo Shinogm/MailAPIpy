@@ -1,4 +1,4 @@
-from services.connection import mail_db
+from app.services.connection import mail_db
 
 master_token = '46983916'
 

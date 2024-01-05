@@ -22,3 +22,21 @@ class User(BaseModel):
             email=email,
             password=password
         )
+    
+class UserUpdate(BaseModel):
+    name: str | None = None
+    email: str | None = None
+    password: str | None = None
+
+    @classmethod
+    def as_form(
+            cls,
+            name: Annotated[str | None, Form(...)] = None,
+            email: Annotated[str | None, Form(...)] = None,
+            password: Annotated[str | None, Form(...)] = None,
+        ):
+        return cls(
+            name=name,
+            email=email,
+            password=password
+        )

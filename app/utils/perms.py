@@ -1,4 +1,4 @@
-from services.connection import mail_db
+from app.services.connection import mail_db
 from app.utils.auth import verify_perm
 
 def get_perm_id(name: str) -> int:
