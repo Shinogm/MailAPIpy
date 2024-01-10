@@ -1,4 +1,4 @@
--- Active: 1695837029838@@127.0.0.1@3306@mail_db
+-- Active: 1696921476499@@127.0.0.1@3306@mail_db
 DROP DATABASE IF EXISTS mail_db;
 
 CREATE DATABASE mail_db DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -68,4 +68,27 @@ CREATE TABLE contacts_in_user_folder(
     CONSTRAINT fk_user_contact_folder_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT fk_user_contact_folder_contact FOREIGN KEY (contact_id) REFERENCES contacts (id) ON DELETE CASCADE,
     CONSTRAINT fk_user_contact_folder_folder FOREIGN KEY (folder_id) REFERENCES folders (id) ON DELETE CASCADE
+);
+
+CREATE TABLE plans(
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY name (name)
+);
+
+INSERT INTO plans (name, price) VALUES
+('Free', 0.00),
+('Basic', 4.99),
+('Pro', 9.99);
+
+CREATE TABLE user_plan(
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id BINARY(16) NOT NULL,
+    plan_id INT NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY user_plan (user_id, plan_id),
+    CONSTRAINT fk_user_plan_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_plan_plan FOREIGN KEY (plan_id) REFERENCES plans (id) ON DELETE CASCADE
 );

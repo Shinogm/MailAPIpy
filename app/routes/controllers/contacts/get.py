@@ -1,5 +1,4 @@
-from fastapi import HTTPException, Depends
-from app.models.contacts import Contact
+from fastapi import HTTPException
 from app.services.connection import mail_db
 
 async def get_contacts():
