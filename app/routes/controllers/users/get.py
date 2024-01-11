@@ -20,15 +20,15 @@ async def get_one_user(token: str, user_id: str):
     if not auth.verify_perm(token, perm):
         raise HTTPException(status_code=403, detail='No tienes permisos para realizar esta acción')
 
-    user = mail_db.fetch_one(
+    user_db = mail_db.fetch_one(
         sql='SELECT BIN_TO_UUID(id) as id, name, email FROM users WHERE id = UUID_TO_BIN(%s)',
         params=(user_id,)
     )
 
-    if not user:
+    if not user_db:
         raise HTTPException(status_code=404, detail='User not found')
 
     return {
         'message': 'User fetched successfully',
-        'data': user
+        'data': user_db
     }

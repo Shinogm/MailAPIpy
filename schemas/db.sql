@@ -1,4 +1,4 @@
--- Active: 1695837029838@@127.0.0.1@3306@mail_db
+-- Active: 1696921476499@@127.0.0.1@3306@mail_db
 DROP DATABASE IF EXISTS mail_db;
 
 CREATE DATABASE mail_db DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
