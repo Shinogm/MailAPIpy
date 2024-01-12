@@ -8,7 +8,7 @@ def main():
         contact.router,
         user.router,
         folder.router
-        
+
     ],
     static_dirs=[
         StaticDir(name='public', path='public')
