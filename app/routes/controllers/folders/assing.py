@@ -1,5 +1,4 @@
-from fastapi import HTTPException, Depends
-from app.models.folder import CreateFolder
+from fastapi import HTTPException
 from app.services.connection import mail_db
 from app.utils import auth, perms
 from app.enums.folders.folder_perm import FOLDER_PERM
@@ -41,5 +40,6 @@ async def assing_folder(token: str, folder_id: int, user_id: str):
     return {
         'message': 'Folder assigned successfully',
         'folder_id': folder_id,
-        'user_id': user_id
+        'user_id': user_id,
+        'userdb': user_db
     }

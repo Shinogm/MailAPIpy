@@ -79,9 +79,9 @@ CREATE TABLE plans(
 );
 
 INSERT INTO plans (name, price) VALUES
-('Free', 0.00),
 ('Basic', 4.99),
 ('Pro', 9.99);
+('Ultimate', 14.99);
 
 CREATE TABLE user_plan(
     id INT NOT NULL AUTO_INCREMENT,

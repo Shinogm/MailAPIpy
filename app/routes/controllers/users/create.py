@@ -11,7 +11,7 @@ async def create_user(token: str, user: User = Depends(User.as_form)):
         raise HTTPException(status_code=403, detail='No tienes permisos para realizar esta acción')
 
     try:
-        mail_db.insert(
+         mail_db.insert(
             table='users',
             data={
                 'name': user.name,
@@ -25,4 +25,5 @@ async def create_user(token: str, user: User = Depends(User.as_form)):
     
     return {
         'message': 'User created successfully',
+        'user': user
     }
