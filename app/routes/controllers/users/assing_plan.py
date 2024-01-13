@@ -11,14 +11,10 @@ async def assing_plan(user_id: str, plan_id: int):
     if not user_db:
         raise HTTPException(status_code=404, detail='User not found')
     try:
-        mail_db.insert(
-            'user_plans',
-            {
-                'user_id': user_id,
-                'plan_id': plan_id
-            }
+        mail_db.execute(
+            sql='INSERT INTO user_folders (user_id, folder_id) VALUES (UUID_TO_BIN(%s), %s)',
+            params=(user_id, plan_id)
         )
-    
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail='Ocurrio un error al asignar el plan')
