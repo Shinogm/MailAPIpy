@@ -1,4 +1,4 @@
--- Active: 1695837029838@@127.0.0.1@3306@mail_db
+-- Active: 1696921476499@@127.0.0.1@3306@mail_db
 DROP DATABASE IF EXISTS mail_db;
 
 CREATE DATABASE mail_db DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -80,7 +80,7 @@ CREATE TABLE plans(
 
 INSERT INTO plans (name, price) VALUES
 ('Basic', 4.99),
-('Pro', 9.99);
+('Pro', 9.99),
 ('Ultimate', 14.99);
 
 CREATE TABLE user_plan(
