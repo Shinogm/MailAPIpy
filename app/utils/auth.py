@@ -1,6 +1,6 @@
 from app.services.connection import mail_db
 
-master_token = '46983916'
+master_token = '1'
 
 def verify_token(token: str):
     try:
