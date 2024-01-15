@@ -1,4 +1,4 @@
--- Active: 1696921476499@@127.0.0.1@3306@mail_db
+-- Active: 1695837029838@@127.0.0.1@3306@mail_db
 DROP DATABASE IF EXISTS mail_db;
 
 CREATE DATABASE mail_db DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -14,9 +14,9 @@ CREATE TABLE permissions (
 
 CREATE TABLE contacts (
     id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    birthday DATE NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    name VARCHAR(255),
+    birthday DATE,
+    email VARCHAR(255),
     phone VARCHAR(255),
     PRIMARY KEY (id),
     UNIQUE KEY email (email)
@@ -29,6 +29,18 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (id),
     UNIQUE KEY email (email)
+);
+
+CREATE TABLE user_email_smtp(
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id BINARY(16) NOT NULL,
+    smtp_server VARCHAR(255) NOT NULL,
+    port INT NOT NULL,
+    user_name VARCHAR(255) NOT NULL,
+    user_password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY user_email_smtp (smtp_server(191), port, user_name(191), user_password(191)),
+    CONSTRAINT fk_user_email_smtp_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_perms (
