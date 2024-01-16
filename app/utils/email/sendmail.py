@@ -6,13 +6,15 @@ from email.mime.multipart import MIMEMultipart
 
 async def send_email(email: SendEmail, smtp_config: SmtpConfig, html_bool: bool = False, html_body: str | None = None, plane_text: str | None = None):
     """
-    
+    Server configuration
     """
     port = smtp_config.port
     smtp_server = smtp_config.smtp_server
     user = smtp_config.user_name
     password = smtp_config.user_password
-
+    """
+    Email configuration
+    """
     sender = email.sender_email
     receiver = email.receiver_email
     subject = email.subject
@@ -40,7 +42,7 @@ async def send_email(email: SendEmail, smtp_config: SmtpConfig, html_bool: bool 
             'message': 'Email sent successfully',
             'subject': f'{subject} to {receiver} from {sender}',
             'result': 'success',
-            'server_response': server.noop(),  # Obtener la respuesta del servidor (opcional)
+            'server_response': server.noop(), 
         }
     except smtplib.SMTPException as e:
         raise HTTPException(status_code=500, detail=f'Error sending email: {str(e)}')
