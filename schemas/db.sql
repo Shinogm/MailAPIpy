@@ -56,8 +56,7 @@ CREATE TABLE user_perms (
 CREATE TABLE folders(
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY name (name)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE user_folders (

@@ -19,4 +19,3 @@ def verify_password(password: str, email: str):
             return False
     except:
         raise HTTPException(status_code=404, detail='User not found')
-    

@@ -2,7 +2,13 @@ from fastapi import HTTPException, Depends
 from app.models.folder import UpdateFolder
 from app.services.connection import mail_db
 
-async def modify_folder(id: int, folder: UpdateFolder = Depends(UpdateFolder.as_form)):
+async def modify_folder(id: int, user_id: str, folder: UpdateFolder = Depends(UpdateFolder.as_form)):
+    user_db = mail_db.fetch_one(
+        sql='SELECT * FROM users WHERE id = UUID_TO_BIN(%s)',
+        params=(user_id,)
+    )
+    if not user_db:
+        raise HTTPException(status_code=404, detail='User not found')
     folder_db = mail_db.fetch_one(
         sql='SELECT * FROM folders WHERE id = %s',
         params=(id,)

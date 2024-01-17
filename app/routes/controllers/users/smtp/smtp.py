@@ -2,12 +2,10 @@ from app.utils.email.models.send import SmtpConfig
 from fastapi import HTTPException
 from app.services.connection import mail_db
 from app.utils import auth, perms
+from app.routes.controllers.users.smtp.enums.smtp_enum import SMTPERMISSION
 
 async def set_smpt_config(token: str, smtp_config: SmtpConfig, user_id: str):
-    """
-    Set SMTP config
-    """
-    perm = perms.get_perm_id('SMTP_CONFIG')
+    perm = perms.get_perm_id(SMTPERMISSION.CREATE_SERVER.value)
     if not auth.verify_perm(token, perm):
         raise HTTPException(status_code=403, detail='No tienes permisos para realizar esta acción')
     user_db = mail_db.fetch_one(
@@ -19,8 +17,9 @@ async def set_smpt_config(token: str, smtp_config: SmtpConfig, user_id: str):
 
     try:
         mail_db.insert(
-            table='smtp_config',
+            table='user_email_smtp',
             data={
+                'user_id': user_id,
                 'smtp_server': smtp_config.smtp_server,
                 'port': smtp_config.port,
                 'user_name': smtp_config.user_name,
@@ -33,4 +32,6 @@ async def set_smpt_config(token: str, smtp_config: SmtpConfig, user_id: str):
 
     return {
         'message': 'SMTP config set successfully',
+        'smtp_config': smtp_config,
+        'user_id': user_id
     }

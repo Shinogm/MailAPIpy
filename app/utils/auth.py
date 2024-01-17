@@ -13,7 +13,6 @@ def verify_token(token: str):
             return True
     except:
         return False
-    
 
 def get_perms(id: str):
     isValidId = verify_token(id)
