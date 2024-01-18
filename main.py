@@ -5,16 +5,16 @@ from app.models.static_dir import StaticDir
 def main():
     app = App(
     routers=[
-        contact.router,
         user.router,
-        folder.router
+        folder.router,
+        contact.router
 
     ],
     static_dirs=[
         StaticDir(name='public', path='public')
     ]
-    
     ).get_app()
+
     return app
 
 if __name__ == '__main__':

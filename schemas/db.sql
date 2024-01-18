@@ -22,13 +22,28 @@ CREATE TABLE contacts (
     UNIQUE KEY email (email)
 );
 
+CREATE TABLE plans(
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE KEY name (name)
+);
+
+INSERT INTO plans (name, price) VALUES
+('Basic', 4.99),
+('Pro', 9.99),
+('Ultimate', 14.99);
+
 CREATE TABLE users (
     id BINARY(16) NOT NULL DEFAULT (UUID_TO_BIN(UUID())),
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
+    plan_id INT NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY email (email)
+    UNIQUE KEY email (email),
+    CONSTRAINT fk_user_plan FOREIGN KEY (plan_id) REFERENCES plans (id)
 );
 
 CREATE TABLE user_email_smtp(
@@ -81,25 +96,5 @@ CREATE TABLE contacts_in_user_folder(
     CONSTRAINT fk_user_contact_folder_folder FOREIGN KEY (folder_id) REFERENCES folders (id) ON DELETE CASCADE
 );
 
-CREATE TABLE plans(
-    id INT NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY name (name)
-);
 
-INSERT INTO plans (name, price) VALUES
-('Basic', 4.99),
-('Pro', 9.99),
-('Ultimate', 14.99);
 
-CREATE TABLE user_plan(
-    id INT NOT NULL AUTO_INCREMENT,
-    user_id BINARY(16) NOT NULL,
-    plan_id INT NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY user_plan (user_id, plan_id),
-    CONSTRAINT fk_user_plan_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
-    CONSTRAINT fk_user_plan_plan FOREIGN KEY (plan_id) REFERENCES plans (id) ON DELETE CASCADE
-);

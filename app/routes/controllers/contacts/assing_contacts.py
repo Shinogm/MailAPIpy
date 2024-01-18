@@ -37,7 +37,7 @@ async def assing_contacts_in_user_folder(user_id: str, folder_id: int, contact_i
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail='Ocurrio un error al asignar el contacto')
-    
+
     return {
         'message': 'Contact assigned successfully',
         'user_id': user_id,
@@ -63,7 +63,7 @@ async def get_all_user_assing_contacts_in_folder(user_id: str, folder_id: int):
         raise HTTPException(status_code=404, detail='Folder not found')
 
     contacts = mail_db.fetch_all(
-        sql='SELECT * FROM contacts WHERE id IN (SELECT contact_id FROM user_folder_contact WHERE user_id = UUID_TO_BIN(%s) AND folder_id = %s)',
+        sql='SELECT * FROM contacts WHERE id IN (SELECT contact_id FROM contacts_in_user_folder WHERE user_id = UUID_TO_BIN(%s) AND folder_id = %s)',
         params=(user_id, folder_id)
     )
 

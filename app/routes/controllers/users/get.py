@@ -8,7 +8,7 @@ async def get_users(token: str):
     if not auth.verify_perm(token, perm):
         raise HTTPException(status_code=403, detail='No tienes permisos para realizar esta acción')
 
-    users = mail_db.fetch_all('SELECT BIN_TO_UUID(id) as id, name, email FROM users')
+    users = mail_db.fetch_all('SELECT BIN_TO_UUID(id) as id, name, email, plan_id FROM users')
 
     return {
         'message': 'Users fetched successfully',
