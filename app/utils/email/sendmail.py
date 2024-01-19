@@ -50,4 +50,18 @@ async def send_email(email: SendEmail, smtp_config: SmtpConfig, html_bool: bool 
         raise HTTPException(status_code=500, detail=f'Error sending email other: {str(e)}')
 
 async def send_massive_email(folder_id: int, user_id: str):
-    pass
+    user_db = mail_db.fetch_one(
+        sql='SELECT BIN_TO_UUID(id) as id, name, email FROM users WHERE id = UUID_TO_BIN(%s)',
+        params=(user_id,)
+    )
+    if not user_db:
+        raise HTTPException(status_code=404, detail='User not found')
+
+    folder_db = mail_db.fetch_one(
+        sql='SELECT id, name FROM folders WHERE id = %s',
+        params=(folder_id,)
+    )
+    if not folder_db:
+        raise HTTPException(status_code=404, detail='Folder not found')
+
+    
