@@ -1,5 +1,5 @@
 from app.services.fastapi import App
-from app.routes.routers import contact, user, folder
+from app.routes.routers import contact, user, folder, mail
 from app.models.static_dir import StaticDir
 
 def main():
@@ -7,7 +7,8 @@ def main():
     routers=[
         user.router,
         folder.router,
-        contact.router
+        contact.router,
+        mail.router
 
     ],
     static_dirs=[
