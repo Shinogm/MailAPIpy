@@ -63,5 +63,12 @@ async def send_massive_email(folder_id: int, user_id: str):
     )
     if not folder_db:
         raise HTTPException(status_code=404, detail='Folder not found')
+    contacts = mail_db.fetch_all(
+        sql='SELECT * FROM contacts WHERE id IN (SELECT contact_id FROM contacts_in_user_folder WHERE user_id = UUID_TO_BIN(%s) AND folder_id = %s)',
+        params=(user_id, folder_id)
+    )
 
-    
+    return {
+        'message': 'Contacts fetched successfully',
+        'data': contacts
+    }
