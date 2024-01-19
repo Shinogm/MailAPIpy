@@ -3,7 +3,7 @@ from app.utils.email.models.send import SendEmail, SmtpConfig
 from fastapi import HTTPException
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
+from app.services.connection import mail_db
 async def send_email(email: SendEmail, smtp_config: SmtpConfig, html_bool: bool = False, html_body: str | None = None, plane_text: str | None = None):
     """
     Server configuration
@@ -48,3 +48,6 @@ async def send_email(email: SendEmail, smtp_config: SmtpConfig, html_bool: bool 
         raise HTTPException(status_code=500, detail=f'Error sending email: {str(e)}')
     except Exception as e:
         raise HTTPException(status_code=500, detail=f'Error sending email other: {str(e)}')
+
+async def send_massive_email(folder_id: int, user_id: str):
+    pass
