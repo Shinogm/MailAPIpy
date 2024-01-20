@@ -35,3 +35,24 @@ async def set_smpt_config(token: str, smtp_config: SmtpConfig, user_id: str):
         'smtp_config': smtp_config,
         'user_id': user_id
     }
+
+async def get_smtp_config(token: str, user_id: str):
+    user_db = mail_db.fetch_one(
+        sql='SELECT * FROM users WHERE id = UUID_TO_BIN(%s)',
+        params=(user_id,)
+    )
+    if not user_db:
+        raise HTTPException(status_code=404, detail='No existe el usuario')
+
+    smtp_config = mail_db.fetch_one(
+        sql='SELECT * FROM user_email_smtp WHERE user_id = UUID_TO_BIN(%s)',
+        params=(user_id,)
+    )
+    if not smtp_config:
+        raise HTTPException(status_code=404, detail='No existe la configuración de smtp')
+
+    return {
+        'message': 'SMTP config get successfully',
+        'smtp_config': smtp_config,
+        'user_id': user_id
+    }
