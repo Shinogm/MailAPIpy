@@ -67,6 +67,7 @@ send_email1 = send_email(
 
 )
 
+
 async def send_massive_email(folder_id: int, user_id: str, subject: str, html_bool: bool = False, html_body: str | None = None, plane_text: str | None = None):
     user_db = mail_db.fetch_one(
         sql='SELECT BIN_TO_UUID(id) as id, name, email FROM users WHERE id = UUID_TO_BIN(%s)',
