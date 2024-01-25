@@ -48,5 +48,5 @@ def verify_perm(id: str, perm: int):
 
     if perm in perms:
         return True
-    
+
     return False

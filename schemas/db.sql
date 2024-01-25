@@ -42,7 +42,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     plan_id INT NOT NULL,
     paid_plan_stamp TIMESTAMP NULL DEFAULT NOW(),
-    is_paid TINYINT(1) NOT NULL DEFAULT 1,
+    is_paid TINYINT(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (id),
     UNIQUE KEY email (email),
     CONSTRAINT fk_user_plan FOREIGN KEY (plan_id) REFERENCES plans (id)

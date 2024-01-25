@@ -16,7 +16,7 @@ def main():
         StaticDir(name='public', path='public')
     ]
     ).get_app()
-    
+
     return app
 if __name__ == '__main__':
     app = main()
