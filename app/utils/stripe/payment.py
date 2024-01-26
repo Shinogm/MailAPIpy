@@ -22,25 +22,63 @@ async def receive_users_payments(user_id: str):
     if not get_plan:
         raise HTTPException(status_code=404, detail='Plan not found')
 
+    user_is_pay = mail_db.fetch_one(
+        sql='SELECT * FROM users WHERE id = UUID_TO_BIN(%s) AND is_paid = 1',
+        params=(user_id,)
+    )
+
+    if user_is_pay:
+        raise HTTPException(status_code=400, detail='User is pay')
 
     try:
-        stripe_customer = stripe.Customer.create(
-          
+        create_product = stripe.Product.create(
+            name = get_plan['name'],
+            type='service'
         )
 
-
-        user_update_payment = mail_db.update(
-            table='users',
-            data={
-                'is_paid': 1
-            },
-            where=f'id = UUID_TO_BIN("{user_id}")'
+        create_price = stripe.Price.create(
+            product = create_product['id'],
+            unit_amount = get_plan['price'],
+            currency = 'mxn',
+            recurring = {
+                'interval': 'month'
+            }
         )
 
-        return {
-            'message': 'User has a plan',
-            'user': user
-        }
+        create_subscription = stripe.Subscription.create(
+            customer = user['stripe_customer_id'],
+            items = [
+                {
+                    'price': create_price['id']
+                }
+            ],
+        )
+
+        user_subscription_payment_verify = stripe.Subscription.retrieve(
+            create_subscription['id']
+        )
+
+    
+
+        if user_subscription_payment_verify['status'] != 'active':
+            raise HTTPException(status_code=400, detail='Payment not verified')
+        else:
+
+
+            user_update_payment = mail_db.update(
+                table='users',
+                data={
+                    'is_paid': 1
+                },
+                where=f'id = UUID_TO_BIN("{user_id}")'
+            )
+
+            return {
+                'message': 'User has a plan',
+                'user': user,
+                'user_subscription_payment_verify': user_subscription_payment_verify,
+                'user_update_payment': user_update_payment
+            }
 
     except Exception as e:
         print(e)
