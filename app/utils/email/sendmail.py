@@ -1,11 +1,11 @@
 import smtplib
 from app.utils.email.models.send import SendEmail, SmtpConfig
-from fastapi import HTTPException
+from fastapi import HTTPException, Depends
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from app.services.connection import mail_db
 
-async def send_email(smtp_config: SmtpConfig, email: SendEmail, html_bool: bool = False, html_body: str | None = None, plane_text: str | None = None):
+async def send_email(smtp_config: SmtpConfig = Depends(SmtpConfig.as_form), email: SendEmail = Depends(SendEmail.as_form), html_bool: bool = False, html_body: str | None = None, plane_text: str | None = None):
     """
     Server configuration
     """
